@@ -1,29 +1,28 @@
 <?php if (!defined('__TYPECHO_ROOT_DIR__')) exit; ?>
-
-<footer id="footer" class="footer <?php if (isset($this->___fields()['archive'])): ?>bg-white<?php elseif($this->is('archive')&&($this->options->colorBgPosts == 'defaultColor')): ?>bg-white<?php elseif($this->is('archive')&&($this->options->colorBgPosts == 'customColor')): ?>bg-grey<?php elseif($this->is('single')): ?>bg-white<?php endif; ?>">
-    <div class="footer-social">
-        <div class="footer-container clearfix">
-            <div class="social-list">
-            <?php if ($this->options->socialweibo): ?>
-                <a class="social weibo" target="blank" href="<?php $this->options->socialweibo(); ?>">WEIBO</a>
-            <?php endif; ?>
+<footer id="footer" class="footer <?php if (array_key_exists('archive',unserialize($this->___fields()))): ?>bg-white<?php elseif($this->is('archive')&&($this->options->colorBgPosts == 'defaultColor')): ?>bg-white<?php elseif($this->is('archive')&&($this->options->colorBgPosts == 'customColor')): ?>bg-grey<?php elseif($this->is('single')): ?>bg-white<?php endif; ?>">
+	<div class="footer-social">
+		<div class="footer-container clearfix">
+			<div class="social-list">
+			<?php if ($this->options->socialweibo): ?>
+				<a class="social weibo" target="blank" href="<?php $this->options->socialweibo(); ?>">Weibo</a>
+			<?php endif; ?>
             <?php if ($this->options->socialzhihu): ?>
-                <a class="social zhihu" target="blank" href="<?php $this->options->socialzhihu(); ?>">ZHIHU</a>
+                <a class="social zhihu" target="blank" href="<?php $this->options->socialzhihu(); ?>">Zhihu</a>
             <?php endif; ?>
-                <a class="social rss" target="blank" href="<?php $this->options->siteUrl(); ?>feed/">RSS</a>
-            <?php if ($this->options->socialgithub): ?>
-                <a class="social github" target="blank" href="<?php $this->options->socialgithub(); ?>">GITHUB</a>
-            <?php endif; ?>
-            <?php if ($this->options->socialtwitter): ?>
-                <a class="social twitter" target="blank" href="<?php $this->options->socialtwitter(); ?>">TWITTER</a>
-            <?php endif; ?>
-            </div>
-        </div>
-    </div>
-    <div class="footer-meta">
-        <div class="footer-container">
-            <div class="meta-item meta-copyright">
-                <div class="meta-copyright-info">
+            	<a class="social rss" target="blank" href="<?php $this->options->siteUrl(); ?>feed/">Rss</a>
+			<?php if ($this->options->socialgithub): ?>
+				<a class="social github" target="blank" href="<?php $this->options->socialgithub(); ?>">Github</a>
+			<?php endif; ?>
+			<?php if ($this->options->socialtwitter): ?>
+				<a class="social twitter" target="blank" href="<?php $this->options->socialtwitter(); ?>">Twitter</a>
+			<?php endif; ?>
+			</div>
+		</div>
+	</div>
+	<div class="footer-meta">
+		<div class="footer-container">
+			<div class="meta-item meta-copyright">
+				<div class="meta-copyright-info">
                     <a href="<?php $this->options->siteUrl(); ?>" class="info-logo">
                         <?php if($this->options->footerLogoUrl): ?>
                         <img src="<?php $this->options->footerLogoUrl();?>" alt="<?php $this->options->title() ?>" />
@@ -31,31 +30,129 @@
                         <?php $this->options->title() ?>
                         <?php endif; ?>
                     </a>
-                    <div class="info-text">
-                        <p>Theme is <a href="https://github.com/chakhsu/pinghsu" target="blank">Pinghsu</a> by <a href="https://www.linpx.com/" target="_blank">Chakhsu</a></p>
-                        <?php if ($this->options->ICPRecordNumber): ?>
-                        <p><a href="https://beian.miit.gov.cn/" target="blank" ><?php $this->options->ICPRecordNumber(); ?></a></p>
-                        <?php endif; ?>
-                        <p>&copy; <?php echo date('Y'); ?> <a href="<?php $this->options->siteUrl(); ?>"><?php $this->options->title(); ?></a></p>
-                    </div>
-                </div>
+					<div class="info-text">
+					<p id="chakhsu"></p>
+					<?php if($this->options->bei): ?>
+					<p><a href="http://beian.miit.gov.cn/" target="_blank" rel="nofollow"><?php $this->options->bei(); ?></a></p>
+					<?php endif; ?>						
+                    	<p>Theme is <a href="https://github.com/chakhsu/pinghsu" target="_blank">Pinghsu</a> by Chakhsu</p>
+						<p>Powered by <a href="http://www.typecho.org" target="_blank" rel="nofollow">Typecho</a></p>
+						<p>本站由<a target="_blank" href="https://www.upyun.com/?utm_source=lianmeng&utm_medium=referral"><img src="https://derrors.cn/usr/themes/derrors/images/upyun-logo.png" style="height:10px;"></a>提供CDN加速/云存储</p>
+                        <p>&copy; <?php echo date('Y'); ?> <a href="<?php $this->options->siteUrl(); ?>"><?php $this->options->title(); ?></a> 博客</p>
+					</div>
+				</div>
+			</div>
+			<div class="meta-item meta-posts">
+				<h3 class="meta-title">最新发布</h3>
+                <?php getRecentPosts($this,6); ?>
+			</div>
+            <div class="meta-item meta-comments">
+                <h3 class="meta-title">最近评论</h3>
+                <?php $this->widget('Widget_Comments_Recent','pageSize=6')->to($comments); ?>
+                <?php while($comments->next()): ?>
+                <li><a href="<?php $comments->permalink(); ?>"><?php $comments->author(false); ?> : <?php $comments->excerpt(25, '...'); ?></a></li>
+                <?php endwhile; ?>
             </div>
-            <div class="meta-item meta-posts">
-                <h3 class="meta-title">RECENT POSTS</h3>
-                <?php getRecentPosts($this,8); ?>
-            </div>
-            <div class="meta-item meta-tags">
-                <h3 class="meta-title">HOT TAGS</h3>
-                <?php getHotTags($this,20); ?>
-        </div>
-    </div>
+		</div>
+	</div>
+
 </footer>
 
 <?php if (($this->options->tableOfContents == 'able') && ($this->is('post'))): ?>
 <div id="directory-content" class="directory-content">
-    <nav class="toc js-toc"></nav>
+    <div id="directory"></div>
 </div>
-<script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/tocbot/4.18.2/tocbot.min.js"></script>
+
+<script>
+var postDirectoryBuild = function() {
+    var postChildren = function children(childNodes, reg) {
+        var result = [],
+            isReg = typeof reg === 'object',
+            isStr = typeof reg === 'string',
+            node, i, len;
+        for (i = 0, len = childNodes.length; i < len; i++) {
+            node = childNodes[i];
+            if ((node.nodeType === 1 || node.nodeType === 9) &&
+                (!reg ||
+                isReg && reg.test(node.tagName.toLowerCase()) ||
+                isStr && node.tagName.toLowerCase() === reg)) {
+                result.push(node);
+            }
+        }
+        return result;
+    },
+    createPostDirectory = function(article, directory, isDirNum) {
+        var contentArr = [],
+            titleId = [],
+            levelArr, root, level,
+            currentList, list, li, link, i, len;
+        levelArr = (function(article, contentArr, titleId) {
+            var titleElem = postChildren(article.childNodes, /^h\d$/),
+                levelArr = [],
+                lastNum = 1,
+                lastRevNum = 1,
+                count = 0,
+                guid = 1,
+                id = 'directory' + (Math.random() + '').replace(/\D/, ''),
+                lastRevNum, num, elem;
+            while (titleElem.length) {
+                elem = titleElem.shift();
+                contentArr.push(elem.innerHTML);
+                num = +elem.tagName.match(/\d/)[0];
+                if (num > lastNum) {
+                    levelArr.push(1);
+                    lastRevNum += 1;
+                } else if (num === lastRevNum ||
+                    num > lastRevNum && num <= lastNum) {
+                    levelArr.push(0);
+                    lastRevNum = lastRevNum;
+                } else if (num < lastRevNum) {
+                    levelArr.push(num - lastRevNum);
+                    lastRevNum = num;
+                }
+                count += levelArr[levelArr.length - 1];
+                lastNum = num;
+                elem.id = elem.id || (id + guid++);
+                titleId.push(elem.id);
+            }
+            if (count !== 0 && levelArr[0] === 1) levelArr[0] = 0;
+
+            return levelArr;
+        })(article, contentArr, titleId);
+        currentList = root = document.createElement('ul');
+        dirNum = [0];
+        for (i = 0, len = levelArr.length; i < len; i++) {
+            level = levelArr[i];
+            if (level === 1) {
+                list = document.createElement('ul');
+                if (!currentList.lastElementChild) {
+                    currentList.appendChild(document.createElement('li'));
+                }
+                currentList.lastElementChild.appendChild(list);
+                currentList = list;
+                dirNum.push(0);
+            } else if (level < 0) {
+                level *= 2;
+                while (level++) {
+                    if (level % 2) dirNum.pop();
+                    currentList = currentList.parentNode;
+                }
+            }
+            dirNum[dirNum.length - 1]++;
+            li = document.createElement('li');
+            link = document.createElement('a');
+            link.href = '#' + titleId[i];
+            link.innerHTML = !isDirNum ? contentArr[i] :
+                dirNum.join('.') + ' ' + contentArr[i] ;
+            li.appendChild(link);
+            currentList.appendChild(li);
+        }
+        directory.appendChild(root);
+    };
+    createPostDirectory(document.getElementById('post-content'),document.getElementById('directory'), true);
+};
+postDirectoryBuild();
+</script>
 <?php endif; ?>
 <?php if(($this->is('single')) && ($this->allow('comment'))): ?>
 <script>
@@ -120,11 +217,10 @@
 <?php if(!$this->user->hasLogin()): ?>
 function getCommentCookie(name){
     var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
-    if (arr=document.cookie.match(reg)) {
+    if(arr=document.cookie.match(reg))
         return unescape(decodeURI(arr[2]));
-    } else {
+    else
         return null;
-    }
 }
 function addCommentInputValue(){
     document.getElementById('author').value = getCommentCookie('<?php echo md5($this->request->getUrlPrefix()); ?>__typecho_remember_author');
@@ -136,15 +232,15 @@ addCommentInputValue();
 </script>
 <?php endif; ?>
 <?php $this->footer(); ?>
-<script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/headroom/0.12.0/headroom.min.js"></script>
+<script src="//cdn.bootcss.com/headroom/0.9.1/headroom.min.js"></script>
 <?php if ($this->options->useHighline == 'able'): ?>
-<script src="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/11.4.0/highlight.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.10.0/highlight.min.js"></script>
 <?php endif; ?>
 <?php if ($this->options->pjaxSet == 'able'): ?>
-<script src="https://lf6-cdn-tos.bytecdntp.com/cdn/expire-1-M/instantclick/3.1.0/instantclick.min.js"></script>
+<script src="<?php $this->options->themeUrl('js/instantclick.min.js?v20140319'); ?>"></script>
 <?php endif; ?>
 <?php if ($this->options->fastClickSet == 'able'): ?>
-<script src="https://lf26-cdn-tos.bytecdntp.com/cdn/expire-1-M/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
 <?php endif; ?>
 <script>
 <?php if (($this->options->tableOfContents == 'able') && ($this->is('post'))): ?>
@@ -160,16 +256,6 @@ var postDirectory = new Headroom(document.getElementById("directory-content"), {
     }
 });
 postDirectory.init();
-tocbot.init({
-    tocSelector: '.toc',
-    contentSelector: '.post-content',
-    headingSelector: 'h1, h2, h3, h4, h5',
-    collapseDepth: 2,
-    scrollSmooth: true,
-    scrollSmoothDuration: 600,
-    scrollSmoothOffset: -80,
-    headingsOffset: 80,
-});
 <?php endif; ?>
 <?php if($this->is('post')): ?>
 var postSharer = new Headroom(document.getElementById("post-bottom-bar"), {
@@ -194,7 +280,7 @@ var header = new Headroom(document.getElementById("header"), {
 });
 header.init();
 <?php if (($this->options->pjaxSet == 'disable') && ($this->options->useHighline == 'able') && ($this->is('post'))): ?>
-hljs.highlightAll();
+hljs.initHighlightingOnLoad();
 <?php endif; ?>
 <?php if ($this->options->fastClickSet == 'able'): ?>
 if ('addEventListener' in document) {
@@ -227,7 +313,9 @@ MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
 <script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 <?php endif; ?>
 <?php if($this->options->GoogleAnalytics): ?>
+<script>
 <?php $this->options->GoogleAnalytics(); ?>
+</script>
 <?php endif; ?>
 <?php if ($this->options->pjaxSet == 'able'): ?>
 <script data-no-instant>
@@ -250,7 +338,46 @@ InstantClick.on('change', function(isInitialLoad){
 });
 InstantClick.init('mousedown');
 </script>
+
+<!-- START 彩色炫酷文字 JS-->
+<script>
+	var chakhsu = function(r) {function t(){return b[Math.floor(Math.random()*b.length)]}function e(){return String.fromCharCode(94*Math.random()+33)}function n(r){for(var n=document.createDocumentFragment(),i=0;r>i;i++){var l=document.createElement("span");l.textContent=e(),l.style.color=t(),n.appendChild(l)}return n}function i(){var t=o[c.skillI];c.step?c.step--:(c.step=g,c.prefixP<l.length?(c.prefixP>=0&&(c.text+=l[c.prefixP]),c.prefixP++):"forward"===c.direction?c.skillP<t.length?(c.text+=t[c.skillP],c.skillP++):c.delay?c.delay--:(c.direction="backward",c.delay=a):c.skillP>0?(c.text=c.text.slice(0,-1),c.skillP--):(c.skillI=(c.skillI+1)%o.length,c.direction="forward")),r.textContent=c.text,r.appendChild(n(c.prefixP<l.length?Math.min(s,s+c.prefixP):Math.min(s,t.length-c.skillP))),setTimeout(i,d)}
+		var l = "",
+			o = ["玉树临风胜潘安...", "一枝梨花压海棠..."].map(function(r) {
+		return r+"."}),a=2,g=1,s=5,d=75,b=["rgb(110,64,170)","rgb(150,61,179)","rgb(191,60,175)","rgb(228,65,157)","rgb(254,75,131)","rgb(255,94,99)","rgb(255,120,71)","rgb(251,150,51)","rgb(226,183,47)","rgb(198,214,60)","rgb(175,240,91)","rgb(127,246,88)","rgb(82,246,103)","rgb(48,239,130)","rgb(29,223,163)","rgb(26,199,194)","rgb(35,171,216)","rgb(54,140,225)","rgb(76,110,219)","rgb(96,84,200)"],c={text:"",prefixP:-s,skillI:0,skillP:0,direction:"forward",delay:a,step:g};i()};chakhsu(document.getElementById('chakhsu'));if('addEventListener'in document){document.addEventListener('DOMContentLoaded',function(){FastClick.attach(document.body)},false)}
+</script>
 <?php endif; ?>
 </body>
+<!-- OWO表情 引入按钮 JS -->
+<script type="text/javascript">
+function OwO_show() {
+    if ($(".OwO-items").css("max-height") == '0px') {
+        $(".OwO").addClass("OwO-open");
+    } else {
+       $(".OwO").removeClass("OwO-open");
+    }
+};
+</script>
+
+<!-- OWO表情 引入核心 JS -->	
+<script type="text/javascript">
+ Smilies = {
+        dom: function(id) {
+            return document.getElementById(id);
+        },
+        grin: function(tag) {
+            tag = ' ' + tag + ' ';
+            myField = this.dom("textarea");
+            document.selection ? (myField.focus(), sel = document.selection.createRange(), sel.text = tag, myField.focus()) : this.insertTag(tag);
+        },
+        insertTag: function(tag) {
+            myField = Smilies.dom("textarea");
+            myField.selectionStart || myField.selectionStart == "0" ? (startPos = myField.selectionStart, endPos = myField.selectionEnd, cursorPos = startPos, myField.value = myField.value.substring(0, startPos) + tag + myField.value.substring(endPos, myField.value.length), cursorPos += tag.length, myField.focus(), myField.selectionStart = cursorPos, myField.selectionEnd = cursorPos) : (myField.value += tag, myField.focus());
+        }
+    }
+</script>
+
+<!-- 评论框礼花绽放效果-->
+<script type="text/javascript" src="<?php $this->options->themeUrl('/js/activate-power-mode.js'); ?>" async></script>
 </html>
 <?php if ($this->options->htmlCompress == 'able'): $html_source = ob_get_contents(); ob_clean(); print compressHtml($html_source); ob_end_flush(); endif; ?>

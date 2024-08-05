@@ -1,0 +1,47 @@
+.OwO-logo{
+	float:left;
+	cursor:pointer;
+	font-size: 15px;
+    position: absolute;
+    right: 100px;
+    bottom: 20px;
+    display: block;
+    height: 32px;
+    margin: 0 auto;
+    padding: 0 10px;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    text-align: center;
+    color: #313131;
+    border: 1px solid #f7f7f7;
+    border-radius: 30px;
+    background-color: #f7f7f7;
+}
+
+.OwO-logo:hover,.OwO-logo:active,.OwO-logo:active:focus,.OwO-logo:focus{
+	color:#eb5055;
+	border:1px solid #eb5055;
+	outline-style:none;
+	background-color:#fff
+}
+
+.OwO .OwO-body .OwO-items {overflow: auto;font-size: 0;text-align:left}
+
+.OwO .OwO-body .OwO-items .OwO-item {padding: 5px 10px;display: inline-block;-webkit-transition: .3s;transition: .3s;cursor:pointer;}
+
+.OwO .OwO-body .OwO-items .OwO-item img {width: 30px; height: 30px;box-shadow: none!important;}
+
+.OwO .OwO-body .OwO-items .OwO-item:hover{transform:scale(1.3)}
+
+.OwO.OwO-open>.OwO-body>.OwO-items {
+    max-height: 200px!important;
+    margin: 50px 0!important;
+    padding: 0px!important;
+    transition: max-height .8s,margin .8s,padding .8s;
+}
+
+.comment-main img{
+	width:25px;
+	height:25px;
+	vertical-align:middle;
+}

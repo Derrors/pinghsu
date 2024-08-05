@@ -1,11 +1,206 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
+// 文章预计阅读时间及字数统计
+function art_count($cid){
+$db=Typecho_Db::get();
+$rs=$db->fetchRow ($db->select ('table.contents.text')->from ('table.contents')->where ('table.contents.cid=?',$cid)->order ('table.contents.cid',Typecho_Db::SORT_ASC)->limit (1));
+$text = preg_replace("/[^\x{4e00}-\x{9fa5}]/u", "", $rs['text']);
+$read_time = ceil(mb_strlen($text,'UTF-8')/400);
+echo '<i class="fa fa-pencil-square-o" aria-hidden="true"></i> ' . mb_strlen($text,'UTF-8') . '字数　' . '<i class="fa fa-twitch" aria-hidden="true"></i> ' . '预计阅读时间' . $read_time . '分钟';
+}
+
+//表情解析
+function emotionContent($content,$url){
+    $fcontent = preg_replace('#\@\((.*?)\)#','<img src="'. $url .'/OwO/$1.png">',$content);
+}
+
+/** 获取浏览器信息 */
+function getBrowser($agent){ 
+
+    $outputer = false;
+
+    if (preg_match('/MSIE\s([^\s|;]+)/i', $agent, $regs)) {
+        $outputer = 'IE浏览器';
+    } else if (preg_match('/FireFox\/([^\s]+)/i', $agent, $regs)) {
+      $str1 = explode('Firefox/', $regs[0]);
+    $FireFox_vern = explode('.', $str1[1]);
+        $outputer = '火狐浏览器 '. $FireFox_vern[0];
+    } else if (preg_match('/Maxthon([\d]*)\/([^\s]+)/i', $agent, $regs)) {
+      $str1 = explode('Maxthon/', $agent);
+    $Maxthon_vern = explode('.', $str1[1]);
+        $outputer = '傲游浏览器 '.$Maxthon_vern[0];
+    } else if (preg_match('#SE 2([a-zA-Z0-9.]+)#i', $agent, $regs)) {
+        $outputer = '搜狗浏览器';
+    } else if (preg_match('#360([a-zA-Z0-9.]+)#i', $agent, $regs)) {
+    $outputer = '360浏览器';
+    } else if (preg_match('/Edge([\d]*)\/([^\s]+)/i', $agent, $regs)) {
+        $str1 = explode('Edge/', $regs[0]);
+    $Edge_vern = explode('.', $str1[1]);
+        $outputer = 'Edge '.$Edge_vern[0];
+    } else if (preg_match('/EdgiOS([\d]*)\/([^\s]+)/i', $agent, $regs)) {
+        $str1 = explode('EdgiOS/', $regs[0]);
+        $outputer = 'Edge';
+    } else if (preg_match('/UC/i', $agent)) {
+              $str1 = explode('rowser/',  $agent);
+    $UCBrowser_vern = explode('.', $str1[1]);
+        $outputer = 'UC浏览器 '.$UCBrowser_vern[0];
+    }else if (preg_match('/OPR/i', $agent)) {
+              $str1 = explode('OPR/',  $agent);
+    $opr_vern = explode('.', $str1[1]);
+        $outputer = '欧朋浏览器 '.$opr_vern[0];
+    } else if (preg_match('/MicroMesseng/i', $agent, $regs)) {
+        $outputer = '微信内嵌浏览器';
+    }  else if (preg_match('/WeiBo/i', $agent, $regs)) {
+        $outputer = '微博内嵌浏览器';
+    }  else if (preg_match('/QQ/i', $agent, $regs)||preg_match('/QQBrowser\/([^\s]+)/i', $agent, $regs)) {
+                  $str1 = explode('rowser/',  $agent);
+    $QQ_vern = explode('.', $str1[1]);
+        $outputer = 'QQ浏览器 '.$QQ_vern[0];
+    } else if (preg_match('/MQBHD/i', $agent, $regs)) {
+                  $str1 = explode('MQBHD/',  $agent);
+    $QQ_vern = explode('.', $str1[1]);
+        $outputer = 'QQ浏览器 '.$QQ_vern[0];
+    } else if (preg_match('/BIDU/i', $agent, $regs)) {
+        $outputer = '百度浏览器';
+    } else if (preg_match('/LBBROWSER/i', $agent, $regs)) {
+        $outputer = '猎豹浏览器';
+    } else if (preg_match('/TheWorld/i', $agent, $regs)) {
+        $outputer = '世界之窗浏览器';
+    } else if (preg_match('/XiaoMi/i', $agent, $regs)) {
+        $outputer = '小米浏览器';
+    } else if (preg_match('/UBrowser/i', $agent, $regs)) {
+              $str1 = explode('rowser/',  $agent);
+    $UCBrowser_vern = explode('.', $str1[1]);
+        $outputer = 'UC浏览器 '.$UCBrowser_vern[0];
+    } else if (preg_match('/mailapp/i', $agent, $regs)) {
+        $outputer = 'email内嵌浏览器';
+    } else if (preg_match('/2345Explorer/i', $agent, $regs)) {
+        $outputer = '2345浏览器';
+    } else if (preg_match('/Sleipnir/i', $agent, $regs)) {
+        $outputer = '神马浏览器';
+    } else if (preg_match('/YaBrowser/i', $agent, $regs)) {
+        $outputer = 'Yandex浏览器';
+    }  else if (preg_match('/Opera[\s|\/]([^\s]+)/i', $agent, $regs)) {
+        $outputer = 'Opera浏览器';
+    } else if (preg_match('/MZBrowser/i', $agent, $regs)) {
+        $outputer = '魅族浏览器';
+    } else if (preg_match('/VivoBrowser/i', $agent, $regs)) {
+        $outputer = 'vivo浏览器';
+    } else if (preg_match('/Quark/i', $agent, $regs)) {
+        $outputer = '夸克浏览器';
+    } else if (preg_match('/mixia/i', $agent, $regs)) {
+        $outputer = '米侠浏览器';
+    }else if (preg_match('/fusion/i', $agent, $regs)) {
+        $outputer = '客户端';
+    } else if (preg_match('/CoolMarket/i', $agent, $regs)) {
+        $outputer = '基安内置浏览器';
+    } else if (preg_match('/Thunder/i', $agent, $regs)) {
+        $outputer = '迅雷内置浏览器';
+    } else if (preg_match('/Chrome([\d]*)\/([^\s]+)/i', $agent, $regs)) {
+    $str1 = explode('Chrome/', $agent);
+    $chrome_vern = explode('.', $str1[1]);
+        $outputer = '<i class="fa fa-chrome"></i> Chrome '.$chrome_vern[0];
+    } else if (preg_match('/safari\/([^\s]+)/i', $agent, $regs)) {
+         $str1 = explode('Version/',  $agent);
+    $safari_vern = explode('.', $str1[1]);
+        $outputer = 'Safari '.$safari_vern[0];
+    } else{
+        return false;
+    }
+   return $outputer;
+}
+
+/** 获取操作系统信息 */
+function getOs($agent){
+
+    $os = false;
+    
+    if (preg_match('/win/i', $agent)) {
+        if (preg_match('/nt 6.0/i', $agent)) {
+            $os = '<i class="fa fa-windows"></i> Windows Vista';
+        } else if (preg_match('/nt 6.1/i', $agent)) {
+            $os = '<i class="fa fa-windows"></i> Windows 7';
+        } else if (preg_match('/nt 6.2/i', $agent)) {
+            $os = '<i class="fa fa-windows"></i> Windows 8';
+        } else if(preg_match('/nt 6.3/i', $agent)) {
+            $os = '<i class="fa fa-windows"></i> Windows 8.1';
+        } else if(preg_match('/nt 5.1/i', $agent)) {
+            $os = '<i class="fa fa-windows"></i> Windows XP';
+        } else if (preg_match('/nt 10.0/i', $agent)) {
+            $os = '<i class="fa fa-windows"></i> Windows 10';
+        } else{
+            $os = '<i class="fa fa-windows"></i> Windows';
+        }
+    } else if (preg_match('/android/i', $agent)) {
+    if (preg_match('/android 9/i', $agent)) {
+        $os = '<i class="fa fa-android"></i> Android P';
+    }
+    else if (preg_match('/android 8/i', $agent)) {
+        $os = '<i class="fa fa-android"></i> Android O';
+    }
+    else if (preg_match('/android 7/i', $agent)) {
+        $os = '<i class="fa fa-android"></i> Android N';
+    }
+    else if (preg_match('/android 6/i', $agent)) {
+        $os = '<i class="fa fa-android"></i> Android M';
+    }
+    else if (preg_match('/android 5/i', $agent)) {
+        $os = '<i class="fa fa-android"></i> Android L';
+    }
+    else{
+        $os = '<i class="fa fa-android"></i> Android';
+        }
+    }
+    else if (preg_match('/ubuntu/i', $agent)) {
+        $os = '<i class="fa fa-linux"></i> Linux';
+    } else if (preg_match('/linux/i', $agent)) {
+        $os = '<i class="fa fa-linux"></i> Linux';
+    } else if (preg_match('/iPhone/i', $agent)) {
+        $os = '<i class="fa fa-apple"></i> iPhone';
+    } else if (preg_match('/iPad/i', $agent)) {
+        $os = '<i class="fa fa-apple"></i> iPad';
+    } else if (preg_match('/mac/i', $agent)) {
+        $os = '<i class="fa fa-OSX"></i> OSX';
+    }else if (preg_match('/cros/i', $agent)) {
+        $os = 'chrome os';
+    }else {
+    return false;
+    }
+   return $os;
+}
+
+//实现文章阅读次数统计Cookie版
+function getViewsStr($widget, $format = "{views}") {
+    $fields = unserialize($widget->fields);
+    if (array_key_exists('views', $fields))
+        $views = (!empty($fields['views'])) ? intval($fields['views']) : 0;
+    else
+        $views = 0;
+    if ($widget->is('single')) {
+        $vieweds = Typecho_Cookie::get('contents_viewed');
+        if (empty($vieweds))
+            $vieweds = array();
+        else
+            $vieweds = explode(',', $vieweds);
+        if (!in_array($widget->cid, $vieweds)) {
+            $views = $views + 1;
+            $widget->setField('views', 'str', strval($views), $widget->cid);
+            $vieweds[] = $widget->cid;
+            $vieweds = implode(',', $vieweds);
+            Typecho_Cookie::set("contents_viewed",$vieweds);
+        }
+    }
+    return str_replace("{views}", $views, $format);
+}
+
 function themeConfig($form) {
     $logoUrl = new Typecho_Widget_Helper_Form_Element_Text('logoUrl', NULL, NULL, _t('页头logo地址'), _t('一般为http://www.yourblog.com/image.png,支持 https:// 或 //,留空则使用站点名称'));
     $form->addInput($logoUrl->addRule('xssCheck', _t('请不要在图片链接中使用特殊字符')));
     $footerLogoUrl = new Typecho_Widget_Helper_Form_Element_Text('footerLogoUrl', NULL, NULL, _t('页尾logo地址'), _t('一般为http://www.yourblog.com/image.png,支持 https:// 或 //,留空则使用站点名称'));
     $form->addInput($footerLogoUrl->addRule('xssCheck', _t('请不要在图片链接中使用特殊字符')));
+	$bei = new Typecho_Widget_Helper_Form_Element_Text('bei', NULL, NULL, _t('工信部备案号'), _t('一般为：蜀ICP备16004611号,留空则不显示'));
+    $form->addInput($bei->addRule('xssCheck', _t('工信部备案号不能使用特殊字符')));
     $favicon = new Typecho_Widget_Helper_Form_Element_Text('favicon', NULL, NULL, _t('favicon地址'), _t('一般为http://www.yourblog.com/image.png,支持 https:// 或 //,留空则不设置favicon'));
     $form->addInput($favicon->addRule('xssCheck', _t('请不要在图片链接中使用特殊字符')));
     $iosicon = new Typecho_Widget_Helper_Form_Element_Text('iosicon', NULL, NULL, _t('apple touch icon地址'), _t('一般为http://www.yourblog.com/image.png,支持 https:// 或 //,留空则不设置Apple Touch Icon'));
@@ -13,6 +208,17 @@ function themeConfig($form) {
 
     $searchPage = new Typecho_Widget_Helper_Form_Element_Text('searchPage', NULL, NULL, _t('搜索页地址'), _t('输入你的 Template Page of Search 的页面地址,记得带上 http:// 或 https://'));
     $form->addInput($searchPage->addRule('xssCheck', _t('请不要在链接中使用特殊字符')));
+	
+	$categorysMenu = new Typecho_Widget_Helper_Form_Element_Radio('categorysMenu',
+        array('able' => _t('启用'),
+            'disable' => _t('禁止'),
+        ),
+        'disable', _t('文章分类下拉菜单'), _t('默认禁止，启用则在导航栏显示文章分类下拉菜单’'));
+    $form->addInput($categorysMenu);
+    $categorysText = new Typecho_Widget_Helper_Form_Element_Text('categorysText', NULL, NULL, _t('文章分类下拉菜单显示名称（启用“文章分类下拉菜单”后生效）'), _t('在这里输入导航栏分类菜单的显示名称,留空则默认显示为“分类”'));
+    $form->addInput($categorysText);
+    $categorysPage = new Typecho_Widget_Helper_Form_Element_Text('categorysPage', NULL, NULL, _t('文章分类页面地址（启用“文章分类下拉菜单”后生效）'), _t('输入你的 Template Page of Categorys Archives 的页面地址（未创建此页面或不想使用跳转的可留空）,记得带上 http:// 或 https://'));
+    $form->addInput($categorysPage->addRule('xssCheck', _t('请不要在链接中使用特殊字符')));
 
     $pjaxSet = new Typecho_Widget_Helper_Form_Element_Radio('pjaxSet',
         array('able' => _t('启用'),
@@ -48,13 +254,6 @@ function themeConfig($form) {
         ),
         'oneList', _t('首页文章列表设置'), _t('默认单栏，根据自己的喜好去做切换吧'));
     $form->addInput($postListSwitch);
-
-    $categoryNav = new Typecho_Widget_Helper_Form_Element_Radio('categoryNav',
-        array('able' => _t('启用'),
-            'disable' => _t('禁止'),
-        ),
-        'disable', _t('导航菜单是否启动分类'), _t('默认禁止，启用后导航菜单会展示分类'));
-    $form->addInput($categoryNav);
 
     $colorBgPosts = new Typecho_Widget_Helper_Form_Element_Radio('colorBgPosts',
         array('customColor' => _t('启用'),
@@ -98,7 +297,7 @@ function themeConfig($form) {
         'disable', _t('文章Mathjax设置'), _t('默认禁止，启用则会对内容页进行数学公式渲染，仅支持 $公式$ 和 $$公式$$ '));
     $form->addInput($useMathjax);
 
-    $GoogleAnalytics = new Typecho_Widget_Helper_Form_Element_Textarea('GoogleAnalytics', NULL, NULL, _t('Google Analytics代码'), _t('填写你从Google Analytics获取到的Universal Analytics跟踪代码，需要script标签'));
+    $GoogleAnalytics = new Typecho_Widget_Helper_Form_Element_Textarea('GoogleAnalytics', NULL, NULL, _t('Google Analytics代码'), _t('填写你从Google Analytics获取到的Universal Analytics跟踪代码，不需要script标签'));
     $form->addInput($GoogleAnalytics);
 
 
@@ -118,9 +317,6 @@ function themeConfig($form) {
     $form->addInput($cdnAddress->addRule('xssCheck', _t('请不要在链接中使用特殊字符')));
     $default_thumb = new Typecho_Widget_Helper_Form_Element_Text('default_thumb', NULL, '', _t('默认缩略图'),_t('文章没有图片时的默认缩略图，留空则无，一般为http://www.yourblog.com/image.png'));
     $form->addInput($default_thumb->addRule('xssCheck', _t('请不要在链接中使用特殊字符')));
-
-    $ICPRecordNumber = new Typecho_Widget_Helper_Form_Element_Text('ICPRecordNumber', NULL, '', _t('ICP备案号'),_t('ICP备案号，一般为你备案申请审批通过后返回的认证序列号，也就是ICP备案号，一般为粤XXXXXXX'));
-    $form->addInput($ICPRecordNumber->addRule('xssCheck', _t('请不要在链接中使用特殊字符')));
 }
 
 function themeInit($archive){
@@ -172,14 +368,6 @@ function parseContent($obj){
         $obj->content = str_ireplace($options->src_add,$options->cdn_add,$obj->content);
     }
     $obj->content = preg_replace("/<a href=\"([^\"]*)\">/i", "<a href=\"\\1\" target=\"_blank\">", $obj->content);
-    $obj->content = preg_replace('/<img(.*?)src(.*?)=(.*?)"(.*?)">/i', '<img$1src$3="$4"$5 loading="lazy">', $obj->content);
-    $obj->content = preg_replace_callback('/<h([1-5])>(.*?)<\/h\1>/i', function($matches) {
-        static $id = 1;
-        $hyphenated = 'anchor-' . $id;
-        $id++;
-        return '<h' . $matches[1] . ' id="' . $hyphenated . '">' . $matches[2] . '</h' . $matches[1] . '>';
-    }, $obj->content);
-
     echo trim($obj->content);
 }
 
@@ -211,21 +399,7 @@ function getRecentPosts($obj,$pageSize){
     foreach($rows as $row){
         $cid = $row['cid'];
         $apost = $obj->widget('Widget_Archive@post_'.$cid, 'type=post', 'cid='.$cid);
-        $output = '<li><a href="'.$apost->permalink.'">'.$apost->title.'</a></li>';
-        echo $output;
-    }
-}
-
-function getHotTags($obj, $limit){
-    $db = Typecho_Db::get();
-    $tags = $db->fetchAll($db->select()
-        ->from('table.metas')
-        ->where('type = ?', 'tag')
-        ->order('count', Typecho_Db::SORT_DESC)
-        ->limit($limit));
-    foreach($tags as $tag){
-        $tag = $obj->filter($tag);
-        $output = '<li><a href="'.$tag['permalink'].'"># '.$tag['name'].'</a></li>';
+        $output = '<li><a href="'.$apost->permalink .'">'. $apost->title .'</a></li>';
         echo $output;
     }
 }
@@ -252,7 +426,7 @@ function theNext($widget, $default = NULL){
     $content = $db->fetchRow($sql);
     if ($content) {
         $content = $widget->filter($content);
-        $link = '<a href="'.$content['permalink'].'" title="'.$content['title'].'">←</a>';
+        $link = '<a href="' . $content['permalink'] . '" title="' . $content['title'] . '">←</a>';
         echo $link;
     } else {
         echo $default;
@@ -271,7 +445,7 @@ function thePrev($widget, $default = NULL){
     $content = $db->fetchRow($sql);
     if ($content) {
         $content = $widget->filter($content);
-        $link = '<a href="'.$content['permalink'].'" title="'.$content['title'].'">→</a>';
+        $link = '<a href="' . $content['permalink'] . '" title="' . $content['title'] . '">→</a>';
         echo $link;
     } else {
         echo $default;
@@ -325,4 +499,28 @@ function compressHtml($html_source) {
         $compress .= $c;
     }
     return $compress;
+}
+
+function seoSetting($obj){
+
+}
+
+//获取Gravatar头像 QQ邮箱取用qq头像
+function getGravatar($email, $s = 96, $d = 'mp', $r = 'g', $img = false, $atts = array())
+{
+preg_match_all('/((\d)*)@qq.com/', $email, $vai);
+if (empty($vai['1']['0'])) {
+    $url = 'https://www.gravatar.com/avatar/';
+    $url .= md5(strtolower(trim($email)));
+    $url .= "?s=$s&d=$d&r=$r";
+    if ($img) {
+        $url = '<img src="' . $url . '"';
+        foreach ($atts as $key => $val)
+            $url .= ' ' . $key . '="' . $val . '"';
+        $url .= ' />';
+    }
+}else{
+    $url = 'https://q2.qlogo.cn/headimg_dl?dst_uin='.$vai['1']['0'].'&spec=100';
+}
+return  $url;
 }

@@ -23,14 +23,46 @@
     ), '', ' - '); ?><?php $this->options->title(); ?></title>
     <meta name="keywords" content="<?php $this->keywords(); ?>" />
     <?php $this->header('keywords=&generator=&template=&pingback=&xmlrpc=&wlw=&commentReply=&rss1=&rss2=&atom='); ?>
-    <link href="https://lf9-cdn-tos.bytecdntp.com/cdn/expire-1-M/highlight.js/11.4.0/styles/xcode.min.css" rel="stylesheet">
-    <link href="<?php $this->options->themeUrl('style.min.css?20240216'); ?>" rel="stylesheet">
+    <link href="//cdn.bootcss.com/highlight.js/9.10.0/styles/xcode.min.css" rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('style.min.css?20170331'); ?>" rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('/css/OwO.min.css'); ?>" rel="stylesheet">
+	<link href="<?php $this->options->themeUrl('/css/font-awesome.min.css'); ?>" rel="stylesheet">
+	<!-- JQ库 -->
+	<script src="//cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
     <!--[if lt IE 9]>
     <script src="//cdn.bootcss.com/html5shiv/r29/html5.min.js"></script>
     <script src="//cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+	<!-- 夜间模式切换判断css代码 -->
+	<script type="text/javascript">
+		function getCSS()
+			{
+				datetoday = new Date();
+				timenow=datetoday.getTime();
+				datetoday.setTime(timenow);
+				thehour = datetoday.getHours();
+				if (thehour<0)
+					display = "<?php $this->options->themeUrl('/css/night.css'); ?>";
+				else if (thehour>25)
+					display = "<?php $this->options->themeUrl('/css/night.css'); ?>"; 
+				else if (thehour>0)
+					display = "<?php $this->options->themeUrl('/css/day.css'); ?>"; 
+				else if (thehour<25)
+					display = "<?php $this->options->themeUrl('/css/day.css'); ?>"; 
+			var css = '<';
+				css+='link rel="stylesheet" href='+display+' \/';
+				css+='>';
+					document.write(css);
+			}
+	</script>
+	<!-- 夜间模式触发 -->
+	<script type="text/javascript">
+		window.onload=getCSS();
+	</script>
 </head>
-<body class="<?php if (isset($this->___fields()['archive'])): ?>bg-grey<?php elseif($this->is('archive')&&($this->options->colorBgPosts == 'defaultColor')): ?>bg-grey<?php elseif($this->is('archive')&&($this->options->colorBgPosts == 'customColor')): ?>bg-white<?php elseif(!$this->is('single')): ?>bg-grey<?php endif; ?>" gtools_scp_screen_capture_injected="true">
+
+<body class="<?php if (array_key_exists('archive',unserialize($this->___fields()))): ?>bg-grey<?php elseif($this->is('archive')&&($this->options->colorBgPosts == 'defaultColor')): ?>bg-grey<?php elseif($this->is('archive')&&($this->options->colorBgPosts == 'customColor')): ?>bg-white<?php elseif(!$this->is('single')): ?>bg-grey<?php endif; ?>" gtools_scp_screen_capture_injected="true">
 <!--[if lt IE 8]>
 <div class="browsehappy" role="dialog">
     当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/" target="_blank">升级你的浏览器</a>。
@@ -46,16 +78,25 @@
             <?php endif; ?>
         </a>
         <div class="navbar-menu">
-			<?php if ($this->options->categoryNav == 'able'): ?>
-            <?php $this->widget('Widget_Metas_Category_List')->to($category);?>
-            <?php while ($category->next()):?>
-            <a<?php if($this->is('post')):?> <?php if($this->category == $category->slug):?> class="current"<?php endif;?><?php else:?><?php if($this->is('category', $category->slug)):?> class="current"<?php endif;?> <?php endif;?> href="<?php $category->permalink();?>"><?php $category->name();?></a>
-            <?php endwhile; ?>
+		    <?php if ($this->options->categorysMenu == 'able'): ?>
+            <?php $this->widget('Widget_Metas_Category_List')->to($categorys);?>
+            <?php if ($categorys->have()): ?>
+            <div>
+                <a <?php if($this->options->categorysPage): ?>href="<?php $this->options->categorysPage(); ?>"<?php endif;?>><?php if($this->options->categorysText): $this->options->categorysText(); else: ?>分类<?php endif;?></a>
+                <ul>
+                    <?php while($categorys->next()): ?>
+                    <li><a <?php if($this->is('category', $categorys->slug)): ?>class="current" <?php endif; ?>href="<?php $categorys->permalink();?>"><?php $categorys->name();?></a></li>
+                    <?php endwhile; ?>
+                </ul>
+            </div>
+            <?php endif; ?>
             <?php endif; ?>
             <?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
             <?php while($pages->next()): ?>
+			
             <a<?php if($this->is('page', $pages->slug)): ?> class="current"<?php endif; ?> href="<?php $pages->permalink(); ?>"><?php $pages->title(); ?></a>
             <?php endwhile; ?>
+			
         </div>
         <?php if($this->options->searchPage): ?>
         <a href="<?php $this->options->searchPage(); ?>" class="navbar-search">
@@ -71,19 +112,26 @@
             </form>
         </div>
         <?php endif;?>
-        <div class="navbar-mobile-menu" onclick="">
+		<script>function navbarSwith(){document.getElementsByClassName("navbar-mobile-menu")[0].classList.toggle("navbar-mobile-menu-on")}</script>
+        <div class="navbar-mobile-menu" onclick="navbarSwith()">
             <span class="icon-menu cross"><span class="middle"></span></span>
             <ul>
-			    <?php if ($this->options->categoryNav == 'able'): ?>
-                <?php $this->widget('Widget_Metas_Category_List')->to($category);?>
-                <?php while ($category->next()):?>
-                <li><a<?php if($this->is('post')):?> <?php if($this->category == $category->slug):?> class="current"<?php endif;?><?php else:?><?php if($this->is('category', $category->slug)):?> class="current"<?php endif;?> <?php endif;?> href="<?php $category->permalink();?>"><?php $category->name();?></a></li>
-                <?php endwhile; ?>
+			    <?php if( ($this->options->categorysMenu == 'able') && ($categorys->have()) ): ?>
+                <li class="navbar-menu-categorys">
+                    <a <?php if($this->options->categorysPage): ?>href="<?php $this->options->categorysPage(); ?>"<?php endif;?>><?php if($this->options->categorysText): $this->options->categorysText(); else: ?>分类<?php endif;?></a>
+                    <ul>
+                        <?php while($categorys->next()): ?>
+                        <li><a <?php if($this->is('category', $categorys->slug)): ?>class="current" <?php endif; ?>href="<?php $categorys->permalink();?>"><?php $categorys->name();?></a></li>
+                        <?php endwhile; ?>
+                    </ul>
+                </li>
                 <?php endif; ?>
                 <?php $this->widget('Widget_Contents_Page_List')->to($pages); ?>
                 <?php while($pages->next()): ?>
+
                 <li><a<?php if($this->is('page', $pages->slug)): ?> class="current"<?php endif; ?> href="<?php $pages->permalink(); ?>"><?php $pages->title(); ?></a></li>
                 <?php endwhile; ?>
+
             </ul>
         </div>
     </div>

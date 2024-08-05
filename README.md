@@ -1,8 +1,6 @@
 ## Pinghsu Theme
 
-[English](README_en.md)
-
-![](./doc/pinghsu-theme-preview.jpg)
+![](https://ws1.sinaimg.cn/large/7c98397dgy1fdydr3jw0yj20rs0fntaz.jpg)
 
 **主题介绍**
 
@@ -35,27 +33,28 @@ https://www.linpx.com
 
 |首页 - 三栏|首页 - 单栏|
 |:------|:------|
-|![首页-三栏.png](./doc/首页-三栏.png)|![首页-单栏.png](./doc/首页-单栏.png)|
+|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyeg1l1gsj211w0udnjj.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyegxxy5sj211w0ud7j2.jpg)|
 
 |文章内容页 - 题图|文章内容页 - 目录|
 |:------|:------|
-|![文章内容页-题图.png](./doc/文章内容页-题图.png)|![文章内容页-目录.png](./doc/文章内容页-目录.png)|
+|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyejnfc0fj211w0ud14o.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyekevycsj211w0ud44f.jpg)|
 
 |页面内容页|内容页 - 评论|
 |:------|:------|
-|![页面内容页.png](./doc/页面内容页.png)|![内容页-评论.png](./doc/内容页-评论.png)|
+|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyerb4zyjj211w0udn0p.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyern8mfjj211w0ud772.jpg)|
 
 |分类页|模板归档页|
 |:------|:------|
-|![分类页.png](./doc/分类页.png)|![模版归档页.png](./doc/模版归档页.png)|
+|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyes1yb7fj211w0udwhp.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyesdiqxjj211w0ud0vw.jpg)|
 
 |搜索页|404|
 |:------|:------|
-|![搜索页.png](./doc/搜索页.png)|![404页.png](./doc/404页.png)|
+|![](https://ws1.sinaimg.cn/large/7c98397dgy1fe0flbno1bj223s1oq15m.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fe0flvltizj223s1oq79a.jpg)|
+
 
 |移动端 - 首页|移动端 - 文章页|移动端 - 分类页|
 |:------|:------|:------|
-|![移动端-首页.png](./doc/移动端-首页.png)|![移动端-内容页.png](./doc/移动端-内容页.png)|![移动端-分类页.png](./doc/移动端-分类页.png)|
+|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyesvc4wij20af0ijagh.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyetejn5sj20af0ijta2.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyetxmwe1j20af0ijdgj.jpg)|
 
 ## 主题使用
 
