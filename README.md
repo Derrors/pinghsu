@@ -4,7 +4,7 @@
 
 **主题介绍**
 
-Pinghsu是一款以前端性能优化为出发点而制作的Typecho主题，同时又兼顾设计美学和视觉传达。主题命名取自作者姓名和其女朋友姓名的最后一个字的港式英文，挣扎于Hsuping还是Pinghsu，最后取为Pinghsu，意为一切都是Ping先Hsu后，即系要听女朋友的话。
+Pinghsu 是一款以前端性能优化为出发点而制作的Typecho主题，同时又兼顾设计美学和视觉传达。
 
 **下载地址**
 
@@ -12,7 +12,7 @@ https://github.com/chakhsu/pinghsu
 
 **主题预览**
 
-https://www.linpx.com
+https://derrors.cn
 
 ## 主题亮点
 
@@ -28,33 +28,6 @@ https://www.linpx.com
  - 支持个人社交按钮，社交分享
  - 主题设置添加XSS检测，评论提交防止触发多次
  - 还有更多亮点等你去发现~
-
-## 更多预览
-
-|首页 - 三栏|首页 - 单栏|
-|:------|:------|
-|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyeg1l1gsj211w0udnjj.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyegxxy5sj211w0ud7j2.jpg)|
-
-|文章内容页 - 题图|文章内容页 - 目录|
-|:------|:------|
-|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyejnfc0fj211w0ud14o.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyekevycsj211w0ud44f.jpg)|
-
-|页面内容页|内容页 - 评论|
-|:------|:------|
-|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyerb4zyjj211w0udn0p.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyern8mfjj211w0ud772.jpg)|
-
-|分类页|模板归档页|
-|:------|:------|
-|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyes1yb7fj211w0udwhp.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyesdiqxjj211w0ud0vw.jpg)|
-
-|搜索页|404|
-|:------|:------|
-|![](https://ws1.sinaimg.cn/large/7c98397dgy1fe0flbno1bj223s1oq15m.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fe0flvltizj223s1oq79a.jpg)|
-
-
-|移动端 - 首页|移动端 - 文章页|移动端 - 分类页|
-|:------|:------|:------|
-|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyesvc4wij20af0ijagh.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyetejn5sj20af0ijta2.jpg)|![](https://ws1.sinaimg.cn/large/7c98397dgy1fdyetxmwe1j20af0ijdgj.jpg)|
 
 ## 主题使用
 
@@ -111,15 +84,6 @@ https://www.linpx.com
 
 更多设置教程 : [Here](https://www.linpx.com/p/more-detailed-pinghsu-theme-set-tutorial.html)
 
-## 浏览器兼容情况
-
-这个····现代浏览器都兼容····
-
-## Contributing 贡献
-
-All kinds of contributions (enhancements, new features, documentation & code improvements, issues & bugs reporting) are welcome.
-
-欢迎各种形式的贡献，包括但不限于优化，添加功能，文档 & 代码的改进，问题和 bugs 的报告。
 
 ## License 许可证
 
